@@ -1,0 +1,6 @@
+# => Build container
+FROM node:alpine
+copy ui /ui
+WORKDIR /ui
+
+RUN yarn

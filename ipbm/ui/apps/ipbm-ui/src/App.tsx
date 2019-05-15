@@ -32,7 +32,8 @@ const client = new ApolloClient({
       return defaultDataIdFromObject(object)
     }
   }),
-  uri: "http://localhost:6500/graphql"
+  // @ts-ignore
+  uri: window._env_.API_URL
 });
 
 

@@ -33,14 +33,14 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-router-relative-link": "^4.0.2",
-    "react-scripts": "3.0.0",
+    "react-scripts": "3.0.1",
     "recompose": "^0.30.0",
     "tiny-svg": "^2.2.1",
     "typescript": "3.4.4",
     "yup": "^0.27.0"
   },
   "scripts": {
-    "start": "PORT=3005 react-scripts start",
+    "start": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && PORT=3005 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

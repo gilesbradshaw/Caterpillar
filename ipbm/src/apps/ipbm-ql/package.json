@@ -7,9 +7,9 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "start": "babel-watch app/app.ts --extensions '.ts'",
-    "build": "rimraf out && ./node_modules/.bin/babel app --out-dir out --extensions \".ts,.tsx,.js\" --source-maps inline",
-    "prod": "rimraf out && tsc && node out/app.js",
+    "start": "babel-watch app/index.ts --extensions '.ts'",
+    "build": "rimraf build && ./node_modules/.bin/babel app --out-dir build --extensions \".ts,.tsx,.js\" --source-maps inline",
+    "prod": "rimraf build && tsc && node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint app/app.ts"
   },

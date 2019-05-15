@@ -1,0 +1,54 @@
+version: '3.5'
+services:
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    container_name: ganache
+    ports:
+      - 8545:8545
+    volumes:
+      - ganache-data:/data
+    command: ganache-cli -b 1 --debug -d -i 123456 --db=/data
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    hostname: mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      #- MONGO_LOG_DIR=/dev/null
+      - MONGODB_USER="user" 
+      - MONGODB_PASS="pass"
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongodb:27017/test --quiet 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+  ql:
+    image: ipbm:latest
+    hostname: ql
+    container_name: ql
+    working_dir: /app/src/apps/ipbm-ql
+    restart: unless-stopped
+    ports:
+      - 6500:6500
+    environment:
+      - DEBUG=caterpillarql:*
+    depends_on:
+      - mongodb
+  ui:
+    image: ipbm-ui:latest
+    container_name: ui
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - API_URL=http://localhost:6500/graphql
+      - DEBUG=caterpillarql:*
+volumes:
+  mongodb:
+  ganache-data:

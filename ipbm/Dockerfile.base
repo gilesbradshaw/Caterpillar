@@ -1,0 +1,12 @@
+FROM node:11.6.0-alpine
+RUN apk update && apk upgrade && \
+    apk add --no-cache git
+RUN apk add --no-cache --virtual .gyp \
+        python \
+        make \
+        g++
+RUN yarn add lerna --global
+WORKDIR /app/src
+COPY . /app
+RUN yarn --force
+RUN yarn bootstrap
