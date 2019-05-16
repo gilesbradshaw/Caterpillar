@@ -11,5 +11,7 @@ export default model<any>(
     solidityCode: String,
     abi: String,
     bytecode: String,
+    policyId: String,
+    modelId: String
   }),
 )

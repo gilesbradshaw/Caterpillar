@@ -7,7 +7,7 @@ services:
       - 8545:8545
     volumes:
       - ganache-data:/data
-    command: ganache-cli -b 1 --debug -d -i 123456 --db=/data
+    command: ganache-cli -b 1 -d -i 123456 --db=/data
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -38,6 +38,8 @@ services:
       - 6500:6500
     environment:
       - DEBUG=caterpillarql:*
+      - ETHEREUM=ws://ganache:8545
+      - MONGO=mongodb://mongodb:27017/caterpillarRepo9
     depends_on:
       - mongodb
   ui:

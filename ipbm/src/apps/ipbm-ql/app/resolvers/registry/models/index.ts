@@ -1,6 +1,7 @@
 import _debug from 'debug'
 import {
-  modelSchema
+  modelSchema,
+  processSchema,
 } from '../../repo'
 import Web3 from 'web3'
 // import { processSchema } from '../../repo'

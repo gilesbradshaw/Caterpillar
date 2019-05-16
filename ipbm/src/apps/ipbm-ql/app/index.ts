@@ -1,16 +1,17 @@
 import Web3 from 'web3'
 import mongoose from 'mongoose'
 import _debug from 'debug'
+import config from 'config'
 import serve from './serve'
 
-const web3 = new Web3('ws://ganache:8545')
+const web3 = new Web3(config.get('ethereum'))
 
 const debug = _debug('caterpillarql:app')
 
 
 mongoose.Promise = global.Promise
 
-mongoose.connect('mongodb://mongodb:27017/caterpillarRepo9')
+mongoose.connect(config.get('mongo'))
   .then(
     () => {
       debug('Conectado a MongoDB')

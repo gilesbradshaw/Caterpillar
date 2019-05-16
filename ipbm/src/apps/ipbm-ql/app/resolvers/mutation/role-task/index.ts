@@ -54,14 +54,16 @@ export default async ({
       from: accounts[0],
       gas: 4700000
     })
-
+  console.log('role task contract was', ret.address)
   const created = await roleTaskSchema
     .create(
       {
         address: ret.address,
         solidityCode,
         abi: JSON.stringify(contracts.TaskRoleContract_Contract.abi),
-        bytecode: contracts.TaskRoleContract_Contract.bytecode
+        bytecode: contracts.TaskRoleContract_Contract.bytecode,
+        modelId,
+        policyId,
       }
     )
   const related = await contract
@@ -74,7 +76,5 @@ export default async ({
       from: accounts[0],
       gas: 4700000
     })
-
   return created
-
 }

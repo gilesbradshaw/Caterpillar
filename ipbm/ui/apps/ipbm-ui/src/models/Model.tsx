@@ -18,6 +18,7 @@ import Data from './types/Data'
 import QueryVariables from './types/Query-Variables'
 
 import AddRoleTask from '../role-tasks/Add-Role-Task'
+import RoleTask from '../role-tasks/Role-Task'
 import AddProcess from '../processes/Add-Process'
 import fourOFour from '../util/four-o-four'
 
@@ -51,8 +52,13 @@ const Model: React.FC<
           data,
           loading,
         }) =>
-          ( !loading && data && data.registries[0] &&
+          ( !loading &&
+            data &&
+            data.registries &&
+            data.registries[0] &&
             data.registries[0].models &&
+            data.registries[0].models[0] &&
+            
             <Switch>
               <Route
                 exact
@@ -70,6 +76,11 @@ const Model: React.FC<
                         :
                         {data.registries[0].models[0].taskRoleId}
                       </div>
+                      <Link
+                        to={`${url}/role-task`}
+                      >
+                        role task
+                      </Link>
                       <Link
                         to={`${url}/role-task-add`}
                       >
@@ -90,6 +101,10 @@ const Model: React.FC<
                       </div>
                     </div>
                 }
+              />
+              <Route
+                path={`${path}/role-task`}
+                component={RoleTask}
               />
               <Route
                 path={`${url}/role-task-add`}

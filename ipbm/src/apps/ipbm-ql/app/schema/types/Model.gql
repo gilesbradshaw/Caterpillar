@@ -8,6 +8,7 @@ type Model {
   solidity: String,
   policyId: String
   taskRoleId: String
+  roleTask: RoleTask
   processes(
     _id: String
   ): [Process]
