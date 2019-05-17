@@ -14,33 +14,59 @@ export default (
   registryId
 ) => {
   // Sorting elements such that children are created first
-  let sortedElements = [
-    {
-      nodeId: modelInfo.id,
-      nodeName: modelInfo.name,
-      bundleId: '',
-      nodeIndex: 0,
-      bundleParent: '',
-      factoryContract: '',
-    }
-  ]
-  for (let i = 0; i < sortedElements.length; i++) {
-    if (modelInfo.controlFlowInfoMap.has(sortedElements[i].nodeId)) {
-      let cfInfo = modelInfo.controlFlowInfoMap.get(sortedElements[i].nodeId)
-      let candidates = [cfInfo.multiinstanceActivities, cfInfo.nonInterruptingEvents, cfInfo.callActivities]
-      candidates.forEach(children => {
-        if (children) {
-          children.forEach((value, key) => {
-            sortedElements.push({ nodeId: key, nodeName: value, bundleId: '', nodeIndex: 0, bundleParent: '', factoryContract: '' })
-          })
-        }
-      })
-    }
+  const element = {
+    nodeId: modelInfo.id,
+    nodeName: modelInfo.name,
+    bundleId: '',
+    nodeIndex: 0,
+    bundleParent: '',
+    factoryContract: '',
   }
-  sortedElements.reverse();
-  let nodeIndexes = new Map();
-  for (let i = 0; i < sortedElements.length; i++)
-    nodeIndexes.set(sortedElements[i].nodeId, i)
+  const getSortedElements = (element) => {
+    if (modelInfo.controlFlowInfoMap.has(element.nodeId)) {
+      const cfInfo = modelInfo.controlFlowInfoMap.get(element.nodeId)
+      const elements = [
+        ...cfInfo.multiinstanceActivities || [],
+        ...cfInfo.nonInterruptingEvents || [],
+        ...cfInfo.callActivities || [],
+      ].map(
+        ([
+          nodeName,
+          nodeId,
+        ]) => ({
+          nodeId,
+          nodeName,
+          bundleId: '',
+          nodeIndex: 0,
+          bundleParent: '',
+          factoryContract: '',
+        })
+      )
+      return [
+        ...elements,
+        ...elements
+          .reduce(
+            (acc, val) => [
+              ...acc,
+              ...getSortedElements(val),
+            ],
+            [],
+          )
+      ]
+    }
+    return []
+  }
+  const sortedElements = [
+    element,
+    ...getSortedElements(element)
+  ].reverse()
+  
+  const nodeIndexes = sortedElements
+    .reduce(
+      (acc, { nodeId }, i) =>
+        acc.set(nodeId, i),
+      new Map(),
+    )
   debug('....................................................................')
   debug('UPDATING COMPILATION ARTIFACTS IN REPOSITORY ...')
   return registerModels({
