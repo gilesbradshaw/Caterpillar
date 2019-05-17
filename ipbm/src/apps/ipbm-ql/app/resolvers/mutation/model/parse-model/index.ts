@@ -15,10 +15,28 @@ import makeWorklistGenerationInfo from './set-model-info-solidity/make-worklist-
 import bpmn2solEJS from '../../../../templates/bpmn2sol.ejs'
 import worklist2solEJS from '../../../../templates/worklist2sol.ejs'
 
+import oracleWrapperEjs from '../../../../templates/bpmn/oracle-wrapper.ejs'
+import factoryEjs from '../../../../templates/bpmn/factory.ejs'
+import contractEjs from '../../../../templates/bpmn/contract.ejs'
+
+import abstractWorklistEjs from '../../../../templates/bpmn/abstract-worklist.ejs'
+import worklistEjs from '../../../../templates/bpmn/worklist.ejs'
+
+// import goodsShipmentWorklist from '../../../../templates/bpmn/Goods_Shipement_worklist.sol'
+// import goodsShipmentContract from '../../../../templates/bpmn/Goods_Shipement_Contract.sol'
+
+const oracleWrapperTemplate = ejs.compile(oracleWrapperEjs)
+const factoryTemplate = ejs.compile(factoryEjs)
+const contractTemplate = ejs.compile(contractEjs)
+const abstractWorklistTemplate = ejs.compile(abstractWorklistEjs)
+const worklistTemplate = ejs.compile(worklistEjs)
+
 const bpmn2solTemplate = ejs.compile(bpmn2solEJS)
 const worklist2solTemplate = ejs.compile(worklist2solEJS)
 
-const debug = _debug('caterpillarql:parse-model')
+
+
+const debug = _debug('ipbm-ql:parse-model')
 
 
 
@@ -38,6 +56,7 @@ export default (bpmn: string) =>
           definitions,
         }),
         bpmn,
+        newSolidity: {},
         solidity: 'pragma solidity ^0.5.0;\n',
         controlFlowInfoMap: new Map(),
       }
@@ -70,26 +89,53 @@ export default (bpmn: string) =>
             map.set(info.self.id, info),
           new Map(),
         )
-      modelInfo.solidity = generationInfo
-        .map(
+      const newSolidity = generationInfo
+        .filter(
           ({
             codeGenerationInfo,
             worklistGenerationInfo,
-          }) => [
+          }) =>
             codeGenerationInfo &&
-              bpmn2solTemplate(
-                makeCodeGenerationInfo(codeGenerationInfo),
-              ),
-            worklistGenerationInfo &&
-            worklist2solTemplate(
-              makeWorklistGenerationInfo(
-                worklistGenerationInfo,
-              ),
-            ),
-          ]
-          .filter(x => x)
-          .join('')
-        ).join('')
+              worklistGenerationInfo
+        )
+        .reduce(
+          (
+            acc,
+            {
+              codeGenerationInfo,
+              worklistGenerationInfo,
+            },
+          ) => {
+            const code = codeGenerationInfo &&
+              makeCodeGenerationInfo(codeGenerationInfo)
+            const worklist = worklistGenerationInfo &&
+              makeWorklistGenerationInfo(worklistGenerationInfo)
+            const name = (code && code.nodeName(code.processId())) ||
+              (worklist && worklist.nodeName(worklist.processId()))
+            return {
+              ...acc,
+              ...code &&
+                code.oracleTaskMap.size && {
+                  Oracle_Wrapper: oracleWrapperTemplate(code),
+                },
+              ...code && {
+                [`${name}_Contract`]: /* `${name}_Contract` === 'Goods_Shipement_Contract'
+                  ? goodsShipmentContract
+                  : */ contractTemplate(code),
+                [`${name}_Factory`]: factoryTemplate(code),
+              },
+              ...worklist && {
+                [`${name}_AbstractWorklist`]: abstractWorklistTemplate(worklist),
+                [`${name}_worklist`]: /* `${name}_worklist` === 'Goods_Shipement_worklist'
+                  ? goodsShipmentWorklist
+                  : */ worklistTemplate(worklist),                
+              }
+            }
+          },
+          {},
+        )
+      modelInfo.newSolidity = newSolidity
+      modelInfo.solidity = ''
       //////////////////////////////////////////////////////////////////////////////////
       debug(modelInfo.solidity)
       modelInfo.entryContractName = modelInfo.name + ":" + (proc.name ? proc.name.replace(/\s+/g, "_") : proc.id) + "_Contract"

@@ -1,6 +1,5 @@
 export default function PaletteProvider(palette: any, create: any, elementFactory: any, spaceTool: any, lassoTool: any) {
 
-  console.log('it created palett')
   // @ts-ignore
   this._create = create;
   // @ts-ignore

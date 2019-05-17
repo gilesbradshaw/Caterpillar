@@ -2,7 +2,7 @@ import _debug from 'debug'
 
 import  continueWorklistCreation from './continue-worklist-creation'
 
-const debug = _debug('caterpillarql:model:create-worklist-instances')
+const debug = _debug('ipbm-ql:model:create-worklist-instances')
 
 const createWorklistInstances = (
   web3,
@@ -13,6 +13,8 @@ const createWorklistInstances = (
   modelInfo,
   registryId,
 ) => {
+  console.log({ sortedElements })
+  console.log('going to register worklist for', currentIndex, sortedElements[currentIndex].nodeName)
   debug('----------------------------------------------------------------------------------------')
   const worklistInstanceContract = outputContracts[`${sortedElements[currentIndex].nodeName}_worklist`]
   if (worklistInstanceContract) {
@@ -48,13 +50,15 @@ const createWorklistInstances = (
                       },
                     )
                     .then(
-                      result1 =>
+                      result1 => console.log('registered worklist', result1) ||
                         continueWorklistCreation(
                           web3,
                           registryContract, 
                           currentIndex,
                           [
-                            ...sortedElements.slice(0, currentIndex -1),
+                            ...currentIndex
+                              ? sortedElements.slice(0, currentIndex -1)
+                              : [],
                             {
                               ...sortedElements[currentIndex],
                               worklist: contractW.address

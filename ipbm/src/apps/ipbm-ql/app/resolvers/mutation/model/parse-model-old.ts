@@ -13,7 +13,7 @@ import {
 import bpmn2solEJS from '../../../templates/bpmn2sol.ejs' 
 import worklist2solEJS from '../../../templates/worklist2sol.ejs' 
 
-const debug = _debug('caterpillarql:parse-model')
+const debug = _debug('ipbm-ql:parse-model')
 
 const bpmn2solTemplate = ejs.compile(bpmn2solEJS)
 

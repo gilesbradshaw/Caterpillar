@@ -5,7 +5,7 @@ import {
 } from '../repo'
 import registryContract from '../util/registry-contract'
 
-const debug = _debug('caterpillarql:mutation:work-item')
+const debug = _debug('ipbm-ql:mutation:work-item')
 
 export default async ({
   id,

@@ -6,6 +6,7 @@ type Model {
   name: String
   bpmn: String
   solidity: String,
+  newSolidity: JSON,
   policyId: String
   taskRoleId: String
   roleTask: RoleTask

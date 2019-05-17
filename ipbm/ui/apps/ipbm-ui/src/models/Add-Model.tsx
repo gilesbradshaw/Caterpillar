@@ -57,7 +57,6 @@ const AddModel: React.FunctionComponent<{
 
                   reader.onload = function(e) {
                     setFile((reader.result && reader.result.toString()) || '')
-                    console.log(e && e.target)
                   };
         
                   reader.readAsText(evt.target.files[0]);

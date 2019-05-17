@@ -6,7 +6,7 @@ import extractParameters from './extract-parameters'
 import getNodeName from './get-node-name'
 import hasExternalCall from './has-external-call'
 
-const debug = _debug('caterpillarql:parse-model.make-code-generation-info')
+const debug = _debug('ipbm-ql:parse-model.make-code-generation-info')
 
 export default ({
   catchingMessages,
@@ -575,8 +575,6 @@ export default ({
     return result === '0b' ? new BigNumber(0) : new BigNumber(result).toFixed()
   },
   subprocessStartMarking: subprocessId => {
-    console.log({ subprocessId })
-    console.log(controlFlowInfo.edgeIndexMap)
     let toSearch = globalNodeMap[subprocessId]
     let bitarray = []
     let result = "0b"
@@ -598,10 +596,8 @@ export default ({
               bitarray[controlFlowInfo.edgeIndexMap.get(outgoing.id)] = 1
       }
     }
-    console.log({ bitarray })
     for (let i = bitarray.length - 1; i >= 0; i--)
       result += bitarray[i] ? "1" : "0"
-    console.log({ result })
     return new BigNumber(result).toFixed()
   },
   getAllAncestorsMask: subprocId => {

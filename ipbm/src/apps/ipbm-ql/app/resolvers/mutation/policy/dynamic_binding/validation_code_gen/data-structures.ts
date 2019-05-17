@@ -1,5 +1,5 @@
 import _debug from 'debug'
-const debug = _debug('caterpillarql:policy:data-structures')
+const debug = _debug('ipbm-ql:policy:data-structures')
 
 export class Policy {
     caseCreator: string = undefined;

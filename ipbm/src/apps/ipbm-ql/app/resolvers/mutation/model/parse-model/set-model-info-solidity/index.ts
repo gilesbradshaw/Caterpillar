@@ -30,7 +30,7 @@ import isEmbedded from './mappers/is-embedded'
 
 import generate from './mappers/generate'
 
-const debug = _debug('caterpillarql:set-model-info-solidity')
+const debug = _debug('ipbm-ql:set-model-info-solidity')
 
 
 export default ({

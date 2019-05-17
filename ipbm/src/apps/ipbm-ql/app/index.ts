@@ -6,7 +6,7 @@ import serve from './serve'
 
 const web3 = new Web3(config.get('ethereum'))
 
-const debug = _debug('caterpillarql:app')
+const debug = _debug('ipbm-ql:app')
 
 
 mongoose.Promise = global.Promise

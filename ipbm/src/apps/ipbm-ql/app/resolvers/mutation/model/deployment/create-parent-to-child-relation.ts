@@ -2,7 +2,7 @@ import _debug from 'debug'
 
 import registerFactory from './register-factory'
 
-const debug = _debug('caterpillarql:model:create-parent-to-child-relation')
+const debug = _debug('ipbm-ql:model:create-parent-to-child-relation')
 
 const createParent2ChildRelation = (
   web3,

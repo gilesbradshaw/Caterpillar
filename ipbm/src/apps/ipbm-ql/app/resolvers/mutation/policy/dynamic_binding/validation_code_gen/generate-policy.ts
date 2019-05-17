@@ -13,7 +13,7 @@ import { binding_grammarParser } from '../antlr/binding_grammarParser';
 import BindingVisitor from './Binding-Visitor';
 import { Policy, DisjunctionSet, ConjunctionSet } from './data-structures';
 
-const debug = _debug('caterpillarql:policy: generate-policy')
+const debug = _debug('ipbm-ql:policy: generate-policy')
 
 let policy2solTemplate = ejs.compile(policy2solEJS);
 

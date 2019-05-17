@@ -8,7 +8,6 @@ export default ({
   nodeIndexMap,
   nodeNameMap,
 }) => {
-  console.log('hre ')
   const nodes = nodeList
     .map(
       nodeId => globalNodeMap[nodeId]
@@ -28,6 +27,5 @@ export default ({
           nodeIndexMap,
         )
     }
-    console.log({ ret })
     return ret
   }

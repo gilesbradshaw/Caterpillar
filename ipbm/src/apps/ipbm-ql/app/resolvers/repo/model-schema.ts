@@ -14,6 +14,7 @@ export default model<any>(
     name: String,
     bpmn: String,
     solidity: String,
+    newSolidity: Object,
     abi: String,
     bytecode: String,
     indexToElement: [Schema.Types.Mixed],

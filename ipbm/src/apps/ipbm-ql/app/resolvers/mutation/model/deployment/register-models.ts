@@ -3,9 +3,9 @@ import _debug from 'debug'
 import { modelSchema } from '../../../repo'
 import continueRegistration from './continue-registration'
 
-const debug = _debug('caterpillarql:model:register-models')
+const debug = _debug('ipbm-ql:model:register-models')
 
-let registerModels = (
+let registerModels = ({
   web3,
   registryContract,
   currentIndex,
@@ -14,7 +14,7 @@ let registerModels = (
   modelInfo,
   contracts,
   registryId,
-) => {
+}) => {
   debug('register-models')
   let nodeName = sortedElements[currentIndex].nodeName
   let gNodeId = sortedElements[currentIndex].nodeId
@@ -71,6 +71,7 @@ let registerModels = (
       name: nodeName,
       bpmn,
       solidity: modelInfo.solidity,
+      newSolidity: modelInfo.newSolidity,
       abi:JSON.stringify(contracts[`${nodeName}_Contract`].abi),
       bytecode: contracts[`${nodeName}_Contract`].bytecode,
       indexToElement: indexToFunctionName,

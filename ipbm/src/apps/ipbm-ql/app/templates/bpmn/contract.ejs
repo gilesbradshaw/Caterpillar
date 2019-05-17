@@ -1,26 +1,10 @@
 
+pragma solidity ^0.5.0;
+
 import "AbstractFactory";
 import "AbstractProcess";
 import "AbstractRegistry";
-<% if(oracleTaskMap.size > 0) { -%>
-contract Oracle_Wrapper {
-<% oracleTaskMap.forEach((oracleKey, nodeId, map) => { -%>
-    function <%= getOracleFunction(nodeId) %> (<%= typeParameters(nodeId, true, false) %>, function (uint<%= typeParameters(nodeId, false, true) %>) external returns(bool)) external returns(uint);
-<% }) -%>
-}
-<% } -%>
-
-contract <%= nodeName(processId()) %>_Factory is AbstractFactory {
-    function newInstance(address parent, address processRegistry) public returns(address) {
-        <%= nodeName(processId()) %>_Contract newContract = new <%= nodeName(processId()) %>_Contract(parent, worklist, processRegistry);
-        return address(newContract);
-    }
-
-    function startInstanceExecution(address processAddress) public {
-        <%= nodeName(processId()) %>_Contract(processAddress).startExecution();
-    }
-}
-
+import "<%= nodeName(processId()) %>_AbstractWorklist";
 <% var contracts2Call = getContracts2Call();
    var subprocessToKill = getPossibleKillSubprocess();
    var eventsToCatch = getCatchingEvents(processId());

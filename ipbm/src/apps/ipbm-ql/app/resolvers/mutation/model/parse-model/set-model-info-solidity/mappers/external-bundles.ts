@@ -5,7 +5,6 @@ export default globalNodeMap => ({
   nodeList,
   externalBundles,
 }) => {
-  console.log('hre ')
   const nodes = nodeList
     .map(
       nodeId => globalNodeMap[nodeId]
@@ -26,6 +25,5 @@ export default globalNodeMap => ({
           externalBundles,
         ),
     }
-    console.log({ ret })
     return ret
   }

@@ -3,7 +3,7 @@ import {
   modelSchema,
 } from '../../../repo'
 
-const debug = _debug('caterpillarql:role-task:search-repository')
+const debug = _debug('ipbm-ql:role-task:search-repository')
 
 let searchRepository = (
   web3,

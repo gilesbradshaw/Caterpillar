@@ -7,16 +7,6 @@ export default globalNodeMap => ({
   userTaskList,
   parameterInfo,
 }) => {
-  console.log(
-    nodeList
-      .reduce(
-        (acc, key) => ({
-          ...acc,
-          [key]: globalNodeMap[key],
-        }),
-        {},
-      )
-  )
   const nodes = nodeList
     .map(
       nodeId =>

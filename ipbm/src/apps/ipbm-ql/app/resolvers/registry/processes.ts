@@ -15,7 +15,7 @@ export default async (
   const instances = await contract
     .allInstances()
   if (instances) {
-    debug('caterpillarql:processes')({ instances })
+    debug('ipbm-ql:processes')({ instances })
     const bundleFors = await Promise.all(
       instances
         .filter(

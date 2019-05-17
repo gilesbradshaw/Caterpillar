@@ -4,7 +4,7 @@ import registerModels from './register-models'
 // Step 1. Model Registration: Collects the compilation artifacts of the produced models, 
 //         and saves all these metadata as an entry in the Process Repository.
 
-const debug = _debug('caterpillarql:model:register-model')
+const debug = _debug('ipbm-ql:model:register-model')
 
 export default (
   web3,
@@ -14,7 +14,7 @@ export default (
   registryId
 ) => {
   // Sorting elements such that children are created first
-  let queue = [
+  let sortedElements = [
     {
       nodeId: modelInfo.id,
       nodeName: modelInfo.name,
@@ -24,33 +24,33 @@ export default (
       factoryContract: '',
     }
   ]
-  for (let i = 0; i < queue.length; i++) {
-    if (modelInfo.controlFlowInfoMap.has(queue[i].nodeId)) {
-      let cfInfo = modelInfo.controlFlowInfoMap.get(queue[i].nodeId)
+  for (let i = 0; i < sortedElements.length; i++) {
+    if (modelInfo.controlFlowInfoMap.has(sortedElements[i].nodeId)) {
+      let cfInfo = modelInfo.controlFlowInfoMap.get(sortedElements[i].nodeId)
       let candidates = [cfInfo.multiinstanceActivities, cfInfo.nonInterruptingEvents, cfInfo.callActivities]
       candidates.forEach(children => {
         if (children) {
           children.forEach((value, key) => {
-            queue.push({ nodeId: key, nodeName: value, bundleId: '', nodeIndex: 0, bundleParent: '', factoryContract: '' })
+            sortedElements.push({ nodeId: key, nodeName: value, bundleId: '', nodeIndex: 0, bundleParent: '', factoryContract: '' })
           })
         }
       })
     }
   }
-  queue.reverse();
+  sortedElements.reverse();
   let nodeIndexes = new Map();
-  for (let i = 0; i < queue.length; i++)
-    nodeIndexes.set(queue[i].nodeId, i)
+  for (let i = 0; i < sortedElements.length; i++)
+    nodeIndexes.set(sortedElements[i].nodeId, i)
   debug('....................................................................')
   debug('UPDATING COMPILATION ARTIFACTS IN REPOSITORY ...')
-  return registerModels(
+  return registerModels({
     web3,
     registryContract,
-    0,
-    queue,
+    currentIndex: 0,
+    sortedElements,
     nodeIndexes,
     modelInfo,
     contracts,
     registryId,
-  )
+  })
 }

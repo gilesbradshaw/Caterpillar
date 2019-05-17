@@ -1,6 +1,6 @@
 import _debug from 'debug'
 
-const debug = _debug('caterpillarql:model:continue-worklist-creation')
+const debug = _debug('ipbm-ql:model:continue-worklist-creation')
 
 const continueWorklistCreation = (
   web3,

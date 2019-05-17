@@ -11,7 +11,7 @@ import generateRoleTaskIndexes from './deployment/dynamic-binding/validation_cod
 import generateRoleTaskContract from './deployment/dynamic-binding/validation_code_gen/generate-role-task-contract'
 import createContract from '../../util/create-contract'
 
-const debug = _debug('caterpillarql:role-task')
+const debug = _debug('ipbm-ql:role-task')
 
 export default async ({
   policyId,
@@ -54,7 +54,6 @@ export default async ({
       from: accounts[0],
       gas: 4700000
     })
-  console.log('role task contract was', ret.address)
   const created = await roleTaskSchema
     .create(
       {

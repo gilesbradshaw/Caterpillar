@@ -5,7 +5,7 @@ import {
 } from '../../repo'
 import Web3 from 'web3'
 // import { processSchema } from '../../repo'
-const debug = _debug('caterpillarql:registry.models')
+const debug = _debug('ipbm-ql:registry.models')
 
 export default async (
   {

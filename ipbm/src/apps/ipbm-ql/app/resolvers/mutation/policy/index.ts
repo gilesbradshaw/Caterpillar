@@ -9,7 +9,7 @@ import {
   registrySchema
 } from '../../repo'
 
-const debug = _debug('caterpillarql:policy')
+const debug = _debug('ipbm-ql:policy')
 
 export default async ({
   policyModel,

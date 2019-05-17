@@ -14,6 +14,7 @@ import WorkItemRef from './types/Work-Item-Ref.gql'
 import WorkItemInput from './types/Work-Item-Input.gql'
 
 export default [
+  'scalar JSON',
   InstanceState,
   Model,
   Mutation,

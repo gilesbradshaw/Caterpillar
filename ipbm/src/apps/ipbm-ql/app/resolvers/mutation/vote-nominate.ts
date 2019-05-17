@@ -7,7 +7,7 @@ import registryContract from '../util/registry-contract'
 import findRoleMap from '../util/find-role-map'
 import createContract from '../util/create-contract'
 
-const debug = _debug('caterpillarql:mutation:vote-nominate')
+const debug = _debug('ipbm-ql:mutation:vote-nominate')
 
 export default async ({
   isAccepted,

@@ -8,7 +8,7 @@ import hexToId from '../util/hex-to-id'
 import findRoleMap from '../util/find-role-map'
 import createContract from '../util/create-contract'
 
-const debug = _debug('caterpillarql:mutation:release')
+const debug = _debug('ipbm-ql:mutation:release')
 
 export default async ({
   processAddress,

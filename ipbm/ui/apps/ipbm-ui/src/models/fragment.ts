@@ -7,6 +7,7 @@ export default (name: string) => gql`
     name
     rootProcessId
     bpmn
+    newSolidity
     solidity
     policyId
     taskRoleId

@@ -8,7 +8,7 @@ import registerModel from './deployment/register-model'
 import {
   registrySchema
 } from '../../repo'
-const debug = _debug('caterpillarql:model')
+const debug = _debug('ipbm-ql:model')
 
 export default async ({
   bpmn,
@@ -33,23 +33,9 @@ export default async ({
   })
   const contracts = await truffleCompile({
     ...sources,
-    [model.id]: model.solidity,
-  })  
-  debug(
-    Object.keys(contracts)
-      .reduce(
-        (
-          acc,
-          key,
-        ) => ({
-          ...acc,
-          [key]: contracts[key].bytecode.slice(-30),
-        }),
-        {}
-      )
-  )
-
-
+    ...model.newSolidity,
+  }) 
+  
   if (!contracts || Object.keys(contracts).length === 0) {
     debug('COMPILATION ERROR IN SMART CONTRACTS')
     throw new Error('COMPILATION ERROR IN SMART CONTRACTS 1')

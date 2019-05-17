@@ -9,6 +9,8 @@ import {
   RouteComponentProps,
 } from 'react-router-dom';
 
+import CopyToClipboard from 'react-copy-to-clipboard';
+
 import { Link } from 'react-router-relative-link'
 
 import query from './query'
@@ -96,9 +98,27 @@ const Model: React.FC<
                         id={data.registries[0].models[0].id}
                         model={data.registries[0].models[0].bpmn}
                       />
-                      <div>
-                        {data.registries[0].models[0].solidity}
-                      </div>
+                      {
+                        Object.keys(data.registries[0].models[0].newSolidity)
+                          .map(
+                            (key) =>
+                              <div
+                                key={key}
+                              >
+                                <h1>
+                                  {key}
+                                </h1>
+                                <CopyToClipboard
+                                  text={data.registries[0].models[0].newSolidity[key]}
+                                >
+                                  <span>Copy to clipboard</span>
+                                </CopyToClipboard>
+                                <div>
+                                  {data.registries[0].models[0].newSolidity[key]}
+                                </div>
+                              </div>
+                          )
+                      }
                     </div>
                 }
               />

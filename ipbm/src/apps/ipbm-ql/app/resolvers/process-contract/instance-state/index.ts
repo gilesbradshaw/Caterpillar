@@ -5,7 +5,7 @@ import {
 import createContract from '../../util/create-contract'
 import _debug from 'debug'
 
-const debug = _debug('caterpillarql:process-contract:instance-state')
+const debug = _debug('ipbm-ql:process-contract:instance-state')
 
 const findParameters = (contractAbi, functionName) => {
   let jsonAbi = JSON.parse(contractAbi);

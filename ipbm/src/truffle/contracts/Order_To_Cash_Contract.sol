@@ -1,20 +1,10 @@
+
 pragma solidity ^0.5.0;
 
 import "AbstractFactory";
 import "AbstractProcess";
 import "AbstractRegistry";
-
-contract Order_To_Cash_Factory is AbstractFactory {
-    function newInstance(address parent, address processRegistry) public returns(address) {
-        Order_To_Cash_Contract newContract = new Order_To_Cash_Contract(parent, worklist, processRegistry);
-        return address(newContract);
-    }
-
-    function startInstanceExecution(address processAddress) public {
-        Order_To_Cash_Contract(processAddress).startExecution();
-    }
-}
-
+import "Order_To_Cash_AbstractWorklist";
 
 contract Order_To_Cash_Contract is AbstractProcess {
 
@@ -224,53 +214,6 @@ else                 tmpMarking |= uint(32);
 
     function startedInstanceIndexFor(uint instanceNode) external view returns(uint) {
         return subInstanceStartedIndexes[instanceNode];
-    }
-
-}
-pragma solidity ^0.5.0;
-
-import "AbstractWorklist";
-
-contract Order_To_Cash_AbstractWorklist {
-
-      function Submit_PO_start(uint) external;
-      function Validate_PO_start(uint) external;
-  
-      function Submit_PO_complete(uint) external;
-      function Validate_PO_complete(uint, bool) external;
-  
-}
-
-contract Order_To_Cash_worklist is AbstractWorklist {
-
-    // Events with the information to include in the Log when a workitem is registered
-    event Submit_PO_Requested(uint);
-    event Validate_PO_Requested(uint);
-
-    function Submit_PO_start(uint elementIndex) external {
-        workitems.push(Workitem(elementIndex, msg.sender));
-        emit Submit_PO_Requested(workitems.length - 1);
-    }
-    function Validate_PO_start(uint elementIndex) external {
-        workitems.push(Workitem(elementIndex, msg.sender));
-        emit Validate_PO_Requested(workitems.length - 1);
-    }
-
-    function Submit_PO(uint workitemId) external {
-
-        require(workitemId < workitems.length && workitems[workitemId].processInstanceAddr != address(0) && 
-        canPerform(msg.sender, workitems[workitemId].processInstanceAddr, workitems[workitemId].elementIndex));
-        
-        Order_To_Cash_AbstractWorklist(workitems[workitemId].processInstanceAddr).Submit_PO_complete(workitems[workitemId].elementIndex);
-        workitems[workitemId].processInstanceAddr = address(0);
-    }
-    function Validate_PO(uint workitemId, bool _poStatus) external {
-
-        require(workitemId < workitems.length && workitems[workitemId].processInstanceAddr != address(0) && 
-        canPerform(msg.sender, workitems[workitemId].processInstanceAddr, workitems[workitemId].elementIndex));
-        
-        Order_To_Cash_AbstractWorklist(workitems[workitemId].processInstanceAddr).Validate_PO_complete(workitems[workitemId].elementIndex, _poStatus);
-        workitems[workitemId].processInstanceAddr = address(0);
     }
 
 }

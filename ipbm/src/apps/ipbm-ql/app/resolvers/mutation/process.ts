@@ -9,7 +9,7 @@ import registryContract from '../util/registry-contract'
 import findRoleMap from '../util/find-role-map'
 import createContract from '../util/create-contract'
 
-const debug = _debug('caterpillarql:mutation:process')
+const debug = _debug('ipbm-ql:mutation:process')
 
 export default async ({
   creator,

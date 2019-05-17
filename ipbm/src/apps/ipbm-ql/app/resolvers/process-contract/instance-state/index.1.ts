@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import getNestedContracts from './get-nested-contracts'
 import _debug from 'debug'
 
-const debug = _debug('caterpillarql:process-contract:instance-state')
+const debug = _debug('ipbm-ql:process-contract:instance-state')
 
 const findParameters = (contractAbi, functionName) => {
   let jsonAbi = JSON.parse(contractAbi);

@@ -1,0 +1,18 @@
+
+pragma solidity ^0.5.0;
+
+import "AbstractFactory";
+import "AbstractProcess";
+import "AbstractRegistry";
+import "<%= nodeName(processId()) %>_Contract";
+
+contract <%= nodeName(processId()) %>_Factory is AbstractFactory {
+    function newInstance(address parent, address processRegistry) public returns(address) {
+        <%= nodeName(processId()) %>_Contract newContract = new <%= nodeName(processId()) %>_Contract(parent, worklist, processRegistry);
+        return address(newContract);
+    }
+
+    function startInstanceExecution(address processAddress) public {
+        <%= nodeName(processId()) %>_Contract(processAddress).startExecution();
+    }
+}

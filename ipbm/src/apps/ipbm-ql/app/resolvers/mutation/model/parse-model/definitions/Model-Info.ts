@@ -5,6 +5,7 @@ export default class ModelInfo {
   id: string
   bpmn: string
   solidity: string
+  newSolidity: object
   controlFlowInfoMap: Map<string, ControlFlowInfo>
   globalNodeMap: Map<string, any>
   entryContractName: string

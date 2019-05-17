@@ -13,6 +13,9 @@ class Viewer extends Component {
   modeler = null;
 
   componentDidMount = () => {
+    if (this.props.model === 'empty') {
+      return
+    }
     this.modeler = new BpmnViewer({
       container: `#bpmnview-${this.props.id}`,
     });
@@ -23,6 +26,7 @@ class Viewer extends Component {
     }
     if (this.props.model) {
       this.openBpmnDiagram(this.props.model)
+      console.log('model', this.props.model)
       const canvas = this.modeler.get('canvas');
       // gives an error if you do it straight away...
       setTimeout(
@@ -30,9 +34,11 @@ class Viewer extends Component {
           // const overlays = this.viewer.get('overlays');
           if(this.props.workItems) {
             this.props.workItems.forEach(workItem => {
-              try { canvas.addMarker(workItem.elementId, 'highlight'); }
+              try {
+                canvas.addMarker(workItem.elementId, 'highlight');
+              }
               catch({ message }) {
-                alert('failed to add marker', message)
+                alert(`failed to add marker ${message}`)
               }
             });
           }
@@ -73,6 +79,9 @@ class Viewer extends Component {
   }
 
   render = () => {
+    if (this.props.model === 'empty') {
+      return 'empty'
+    }
     return (
       <div
         id={`bpmnview-${this.props.id}`}

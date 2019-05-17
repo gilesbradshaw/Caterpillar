@@ -1,7 +1,7 @@
 import _debug from 'debug'
 import createWorklistInstances from './create-worklist-instances'
 
-const debug = _debug('caterpillarql:model:continue-factory-registration')
+const debug = _debug('ipbm-ql:model:continue-factory-registration')
 
 const continueFactoryRegistration = (
   web3,

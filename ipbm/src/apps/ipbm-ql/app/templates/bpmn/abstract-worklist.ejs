@@ -1,0 +1,19 @@
+pragma solidity ^0.5.0;
+
+import "AbstractWorklist";
+
+contract <%= nodeName(processId()) %>_AbstractWorklist {
+
+  <%  groupedIds = getWorkItemsGroupByParameters(true);
+      groupedIds.forEach(idGroup => {
+          var nodeId = idGroup[0]; -%>
+    function <%= nodeName(nodeId) %>_start(uint<%= getParameterType(nodeId, true, true, true) %>) external;
+  <% }) -%>
+
+  <%  groupedIds = getWorkItemsGroupByParameters(false);
+      groupedIds.forEach(idGroup => {
+          var nodeId = idGroup[0]; -%>
+    function <%= nodeName(nodeId) %>_complete(uint<%= getParameterType(nodeId, false, true, true) %>) external;
+  <% }) -%>
+
+}

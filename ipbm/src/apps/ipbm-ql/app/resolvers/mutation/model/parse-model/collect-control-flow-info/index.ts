@@ -4,7 +4,7 @@ import collect from './collect'
 import ControlFlowInfo from '../definitions/Control-Flow-Info'
 import getGlobals from './get-globals'
 
-const debug = _debug('caterpillarql:collect-control-flow-info')
+const debug = _debug('ipbm-ql:collect-control-flow-info')
 export default proc => {
   const {
     globalNodeMap,

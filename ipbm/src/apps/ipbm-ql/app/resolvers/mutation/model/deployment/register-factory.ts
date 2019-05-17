@@ -2,7 +2,7 @@ import _debug from 'debug'
 
 import continueFactoryRegistration from './continue-factory-registration'
 
-const debug = _debug('caterpillarql:model:register-factory')
+const debug = _debug('ipbm-ql:model:register-factory')
 
 const registerFactory = (
   web3,

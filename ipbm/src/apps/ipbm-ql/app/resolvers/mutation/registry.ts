@@ -7,7 +7,7 @@ import truffleCompile from '../util/truffle-compile'
 import abstractFactory from '../../abstract/AbstractFactory.sol'
 import processRegistry from '../../abstract/ProcessRegistry.sol' 
 
-const debug = _debug('caterpillarql:registry')
+const debug = _debug('ipbm-ql:registry')
 const executionAccount = 0
 
 export default async ({
