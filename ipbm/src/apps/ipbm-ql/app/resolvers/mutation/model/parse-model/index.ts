@@ -22,8 +22,8 @@ import contractEjs from '../../../../templates/bpmn/contract.ejs'
 import abstractWorklistEjs from '../../../../templates/bpmn/abstract-worklist.ejs'
 import worklistEjs from '../../../../templates/bpmn/worklist.ejs'
 
-// import goodsShipmentWorklist from '../../../../templates/bpmn/Goods_Shipement_worklist.sol'
-// import goodsShipmentContract from '../../../../templates/bpmn/Goods_Shipement_Contract.sol'
+// import goodsShipmentWorklist from '../../../../templates/bpmn/Goods_Shipment_worklist.sol'
+// import goodsShipmentContract from '../../../../templates/bpmn/Goods_Shipment_Contract.sol'
 
 const oracleWrapperTemplate = ejs.compile(oracleWrapperEjs)
 const factoryTemplate = ejs.compile(factoryEjs)
@@ -119,14 +119,14 @@ export default (bpmn: string) =>
                   Oracle_Wrapper: oracleWrapperTemplate(code),
                 },
               ...code && {
-                [`${name}_Contract`]: /* `${name}_Contract` === 'Goods_Shipement_Contract'
+                [`${name}_Contract`]: /* `${name}_Contract` === 'Goods_Shipment_Contract'
                   ? goodsShipmentContract
                   : */ contractTemplate(code),
                 [`${name}_Factory`]: factoryTemplate(code),
               },
               ...worklist && {
                 [`${name}_AbstractWorklist`]: abstractWorklistTemplate(worklist),
-                [`${name}_worklist`]: /* `${name}_worklist` === 'Goods_Shipement_worklist'
+                [`${name}_worklist`]: /* `${name}_worklist` === 'Goods_Shipment_worklist'
                   ? goodsShipmentWorklist
                   : */ worklistTemplate(worklist),                
               }

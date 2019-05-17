@@ -2,9 +2,9 @@
 pragma solidity ^0.5.0;
 
 import "AbstractWorklist";
-import "Goods_Shipement_AbstractWorklist";
+import "Goods_Shipment_AbstractWorklist";
 
-contract Goods_Shipement_worklist is AbstractWorklist {
+contract Goods_Shipment_worklist is AbstractWorklist {
 
     // Events with the information to include in the Log when a workitem is registered
     event Ship_Goods_Requested(uint);
@@ -15,8 +15,8 @@ contract Goods_Shipement_worklist is AbstractWorklist {
         emit Ship_Goods_Requested(workitems.length - 1);
     }
     function Request_Quotes_start(uint elementIndex) external {
-        // workitems.push(Workitem(elementIndex, msg.sender));
-        // emit Request_Quotes_Requested(workitems.length - 1);
+        workitems.push(Workitem(elementIndex, msg.sender));
+        emit Request_Quotes_Requested(workitems.length - 1);
     }
 
     function Ship_Goods(uint workitemId) external {
@@ -24,7 +24,7 @@ contract Goods_Shipement_worklist is AbstractWorklist {
         require(workitemId < workitems.length && workitems[workitemId].processInstanceAddr != address(0) && 
         canPerform(msg.sender, workitems[workitemId].processInstanceAddr, workitems[workitemId].elementIndex));
         
-        Goods_Shipement_AbstractWorklist(workitems[workitemId].processInstanceAddr).Ship_Goods_complete(workitems[workitemId].elementIndex);
+        Goods_Shipment_AbstractWorklist(workitems[workitemId].processInstanceAddr).Ship_Goods_complete(workitems[workitemId].elementIndex);
         workitems[workitemId].processInstanceAddr = address(0);
     }
     function Request_Quotes(uint workitemId) external {
@@ -32,7 +32,7 @@ contract Goods_Shipement_worklist is AbstractWorklist {
         require(workitemId < workitems.length && workitems[workitemId].processInstanceAddr != address(0) && 
         canPerform(msg.sender, workitems[workitemId].processInstanceAddr, workitems[workitemId].elementIndex));
         
-        Goods_Shipement_AbstractWorklist(workitems[workitemId].processInstanceAddr).Request_Quotes_complete(workitems[workitemId].elementIndex);
+        Goods_Shipment_AbstractWorklist(workitems[workitemId].processInstanceAddr).Request_Quotes_complete(workitems[workitemId].elementIndex);
         workitems[workitemId].processInstanceAddr = address(0);
     }
 

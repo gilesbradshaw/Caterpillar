@@ -4,9 +4,9 @@ pragma solidity ^0.5.0;
 import "AbstractFactory";
 import "AbstractProcess";
 import "AbstractRegistry";
-import "Goods_Shipement_AbstractWorklist";
+import "Goods_Shipment_AbstractWorklist";
 
-contract Goods_Shipement_Contract is AbstractProcess {
+contract Goods_Shipment_Contract is AbstractProcess {
 
     uint public marking = uint(2);
     uint public startedActivities = 0;
@@ -109,7 +109,7 @@ contract Goods_Shipement_Contract is AbstractProcess {
     function step(uint tmpMarking, uint tmpStartedActivities) internal {
         while (true) {
             if (tmpMarking & uint(8) != 0) {
-                Goods_Shipement_AbstractWorklist(worklist).Ship_Goods_start(1);
+                Goods_Shipment_AbstractWorklist(worklist).Ship_Goods_start(1);
                 tmpMarking &= uint(~8);
                 tmpStartedActivities |= uint(2);
                 continue;
@@ -130,8 +130,7 @@ contract Goods_Shipement_Contract is AbstractProcess {
                 continue;
             }
             if (tmpMarking & uint(2) != 0) {
-                Goods_Shipement_AbstractWorklist w = Goods_Shipement_AbstractWorklist(worklist);
-                // Goods_Shipement_AbstractWorklist(worklist).Request_Quotes_start(4);
+                Goods_Shipment_AbstractWorklist(worklist).Request_Quotes_start(4);
                 tmpMarking &= uint(~2);
                 tmpStartedActivities |= uint(16);
                 continue;

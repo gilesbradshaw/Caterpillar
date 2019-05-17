@@ -4,15 +4,15 @@ pragma solidity ^0.5.0;
 import "AbstractFactory";
 import "AbstractProcess";
 import "AbstractRegistry";
-import "Goods_Shipement_Contract";
+import "Goods_Shipment_Contract";
 
-contract Goods_Shipement_Factory is AbstractFactory {
+contract Goods_Shipment_Factory is AbstractFactory {
     function newInstance(address parent, address processRegistry) public returns(address) {
-        Goods_Shipement_Contract newContract = new Goods_Shipement_Contract(parent, worklist, processRegistry);
+        Goods_Shipment_Contract newContract = new Goods_Shipment_Contract(parent, worklist, processRegistry);
         return address(newContract);
     }
 
     function startInstanceExecution(address processAddress) public {
-        Goods_Shipement_Contract(processAddress).startExecution();
+        Goods_Shipment_Contract(processAddress).startExecution();
     }
 }
