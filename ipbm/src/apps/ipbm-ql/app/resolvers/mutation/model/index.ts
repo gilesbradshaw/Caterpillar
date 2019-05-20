@@ -21,25 +21,12 @@ export default async ({
       _id: registryId,
     })
   debug('found', registryAddress)
-  const contract = await registryContract({
-    address: registryAddress,
-    web3,
-  })
   debug('adding model to', registryAddress)
-  const model = await parseModel(bpmn)
-  debug({
-    ...sources,
-    [model.id]: model.solidity,
-  })
+  const modelInfo = await parseModel(bpmn)
   const contracts = await truffleCompile({
     ...sources,
-    ...model.newSolidity,
+    ...modelInfo.newSolidity,
   }) 
-  
-  if (!contracts || Object.keys(contracts).length === 0) {
-    debug('COMPILATION ERROR IN SMART CONTRACTS')
-    throw new Error('COMPILATION ERROR IN SMART CONTRACTS 1')
-  }
   // this does nothing
   /*Object.keys(output.contracts).forEach(key => {
     let bytecode = '0x' + output.contracts[key].bytecode
@@ -48,11 +35,14 @@ export default async ({
     // debug("Contract Name: " + key.split(':')[1])
     // debug("Gas Estimation: " + gasEstimate)
   })*/
-  return registerModel(
+  return registerModel({
     web3,
-    contract,
-    model,
+    registryContract: await registryContract({
+      address: registryAddress,
+      web3,
+    }),
+    modelInfo,
     contracts,
     registryId,
-  )
+  })
 }

@@ -4,19 +4,17 @@ import  continueWorklistCreation from './continue-worklist-creation'
 
 const debug = _debug('ipbm-ql:model:create-worklist-instances')
 
-const createWorklistInstances = (
+const createWorklistInstances = ({
   web3,
-  registryContract: import('ipbm-lib').RegistryContract,
+  registryContract,
   currentIndex,
   sortedElements,
-  outputContracts,
+  contracts,
   modelInfo,
   registryId,
-) => {
-  console.log({ sortedElements })
-  console.log('going to register worklist for', currentIndex, sortedElements[currentIndex].nodeName)
+}) => {
   debug('----------------------------------------------------------------------------------------')
-  const worklistInstanceContract = outputContracts[`${sortedElements[currentIndex].nodeName}_worklist`]
+  const worklistInstanceContract = contracts[`${sortedElements[currentIndex].nodeName}_worklist`]
   if (worklistInstanceContract) {
     const worklistContract = new web3.eth.Contract(worklistInstanceContract.abi)
     worklistContract.transactionConfirmationBlocks = 1
@@ -50,12 +48,12 @@ const createWorklistInstances = (
                       },
                     )
                     .then(
-                      result1 => console.log('registered worklist', result1) ||
-                        continueWorklistCreation(
+                      result1 =>
+                        continueWorklistCreation({
                           web3,
                           registryContract, 
                           currentIndex,
-                          [
+                          sortedElements: [
                             ...currentIndex
                               ? sortedElements.slice(0, currentIndex -1)
                               : [],
@@ -65,27 +63,27 @@ const createWorklistInstances = (
                             },
                             ...sortedElements.slice(currentIndex + 1)
                           ],
-                          outputContracts,
+                          contracts,
                           modelInfo,
                           createWorklistInstances,
                           registryId,
-                        )
+                        })
                     )
                 }
               }
             )
         )
   } else {
-    return continueWorklistCreation(
+    return continueWorklistCreation({
       web3,
       registryContract,               
       currentIndex,
       sortedElements,
-      outputContracts,
+      contracts,
       modelInfo,
       createWorklistInstances,
       registryId,
-    )
+    })
   }
 }
 

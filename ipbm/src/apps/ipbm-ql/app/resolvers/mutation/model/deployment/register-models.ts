@@ -16,12 +16,18 @@ let registerModels = ({
   registryId,
 }) => {
   debug('register-models')
-  let nodeName = sortedElements[currentIndex].nodeName
-  let gNodeId = sortedElements[currentIndex].nodeId
-  let controlFlowInfo = modelInfo.controlFlowInfoMap.get(gNodeId)
-  debug('gNodeId', gNodeId, modelInfo.globalNodeMap[gNodeId].$type, controlFlowInfo, modelInfo.controlFlowInfoMap.keys())
-  if (modelInfo.globalNodeMap[gNodeId].$type === 'bpmn:StartEvent')
-    controlFlowInfo = modelInfo.controlFlowInfoMap.get(modelInfo.globalNodeMap[gNodeId].$parent.id)
+  const nodeName = sortedElements[currentIndex].nodeName
+  const gNodeId = sortedElements[currentIndex].nodeId
+  const nodeMap = modelInfo.globalNodeMap[gNodeId]
+    
+  const controlFlowInfo = nodeMap.$type === 'bpmn:StartEvent'
+    ? modelInfo.controlFlowInfoMap.get(modelInfo.globalNodeMap[gNodeId].$parent.id)
+    : modelInfo.controlFlowInfoMap.get(gNodeId)
+  _debug('get-me')({
+    controlFlowInfo,
+    nodeMap,
+    nodeName
+  })
   if (controlFlowInfo) {
     debug('controlFlowInfo')
     let indexToFunctionName = []
@@ -90,11 +96,31 @@ let registerModels = ({
             sortedElements[nodeIndexes.get(childId)].bundleParent = idAsString
           })
           debug(`Compilation artifacts of ${nodeName} updated in repository with id ${idAsString}`)
-          return continueRegistration(web3, registryContract, currentIndex, sortedElements, nodeIndexes, modelInfo, contracts, registerModels, registryId)
+          return continueRegistration({
+            web3,
+            registryContract,
+            currentIndex,
+            sortedElements,
+            nodeIndexes,
+            modelInfo,
+            contracts,
+            registerModels,
+            registryId,
+          })
         }
       )
   } else {
-    return continueRegistration(web3, registryContract, currentIndex, sortedElements, nodeIndexes, modelInfo, contracts, registerModels, registryId)
+    return continueRegistration({
+      web3,
+      registryContract,
+      currentIndex,
+      sortedElements,
+      nodeIndexes,
+      modelInfo,
+      contracts,
+      registerModels,
+      registryId,
+    })
   }
 }
 

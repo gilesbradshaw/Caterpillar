@@ -2,26 +2,26 @@ import _debug from 'debug'
 
 const debug = _debug('ipbm-ql:model:continue-worklist-creation')
 
-const continueWorklistCreation = (
+const continueWorklistCreation = ({
   web3,
   registryContract,
   currentIndex,
   sortedElements,
-  outputContracts,
+  contracts,
   modelInfo,
   createWorklistInstances,
   registryId,
-) => {
+}) => {
   if (currentIndex + 1 < sortedElements.length) {
-    return createWorklistInstances(
+    return createWorklistInstances({
       web3,
       registryContract,
-      currentIndex + 1,
+      currentIndex: currentIndex + 1,
       sortedElements,
-      outputContracts,
+      contracts,
       modelInfo,
       registryId,
-    )
+    })
   } else {
     let bundleId = ''
     for (let i = 0; i < sortedElements.length; i++) {

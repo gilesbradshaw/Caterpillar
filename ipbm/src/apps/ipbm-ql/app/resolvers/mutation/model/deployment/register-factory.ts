@@ -4,25 +4,25 @@ import continueFactoryRegistration from './continue-factory-registration'
 
 const debug = _debug('ipbm-ql:model:register-factory')
 
-const registerFactory = (
+const registerFactory = ({
   web3,
   registryContract,
   currentIndex,
   sortedElements,
-  outputContracts,
+  contracts,
   modelInfo,
   registryId,
-) => {
+}) => {
   debug('------------------------------------------------------------------------')
   debug(
     'adding factory..',
     modelInfo.id,
     `${sortedElements[currentIndex].nodeName}_Factory`,
     Object.keys(
-      outputContracts[`${sortedElements[currentIndex].nodeName}_Factory`],
+      contracts[`${sortedElements[currentIndex].nodeName}_Factory`],
     )
   )
-  const factoryContract = new web3.eth.Contract(outputContracts[`${sortedElements[currentIndex].nodeName}_Factory`].abi)
+  const factoryContract = new web3.eth.Contract(contracts[`${sortedElements[currentIndex].nodeName}_Factory`].abi)
   factoryContract.transactionConfirmationBlocks = 1
   return web3.eth.personal.getAccounts()
     .then(
@@ -30,7 +30,7 @@ const registerFactory = (
         factoryContract
           .deploy(
             {
-              data: outputContracts[`${sortedElements[currentIndex].nodeName}_Factory`].bytecode,
+              data: contracts[`${sortedElements[currentIndex].nodeName}_Factory`].bytecode,
             },
           )
           .send(
@@ -41,17 +41,17 @@ const registerFactory = (
           )
           .then(
             contractF =>
-              continueFactoryRegistration(
+              continueFactoryRegistration({
                 web3,
                 registryContract,
                 currentIndex,
                 sortedElements,
-                outputContracts,
+                contracts,
                 contractF,
                 modelInfo,
                 registerFactory,
                 registryId,
-              )
+              })
           )
     )
   }

@@ -3,17 +3,17 @@ import createWorklistInstances from './create-worklist-instances'
 
 const debug = _debug('ipbm-ql:model:continue-factory-registration')
 
-const continueFactoryRegistration = (
+const continueFactoryRegistration = ({
   web3,
-  registryContract: import('ipbm-lib').RegistryContract,
+  registryContract,
   currentIndex,
   sortedElements,
-  outputContracts,
+  contracts,
   contractF,
   modelInfo,
   registerFactory,
   registryId,
-) => {
+}) => {
   return web3.eth.personal.getAccounts()
     .then(
       accounts =>
@@ -33,27 +33,27 @@ const continueFactoryRegistration = (
                 debug(`${sortedElements[currentIndex].nodeName}_Factory registered SUCCESSFULLY in Process Registry`)
                 debug('....................................................................')
                 if (currentIndex + 1 < sortedElements.length) {
-                    return registerFactory(
+                    return registerFactory({
                       web3,
                       registryContract,
-                      currentIndex + 1,
+                      currentIndex: currentIndex + 1,
                       sortedElements,
-                      outputContracts,
+                      contracts,
                       modelInfo,
                       registryId,
-                    )
+                    })
                 } else {
                     debug('....................................................................')
                     debug('DEPLOYONG worklist CONTRACTS AND UPDATING PROCESS REGISTRY ...')
-                    return createWorklistInstances(
+                    return createWorklistInstances({
                       web3,
                       registryContract,
-                      0,
+                      currentIndex: 0,
                       sortedElements,
-                      outputContracts,
+                      contracts,
                       modelInfo,
                       registryId,
-                    )
+                    })
                 }
             })
         )

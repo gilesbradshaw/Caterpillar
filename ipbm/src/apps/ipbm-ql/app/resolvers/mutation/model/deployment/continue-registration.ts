@@ -4,7 +4,7 @@ import createParent2ChildRelation from './create-parent-to-child-relation'
 
 const debug = _debug('ipbm-ql:model:continue-registration')
 
-let continueRegistration = (
+let continueRegistration = ({
   web3,
   registryContract,
   currentIndex,
@@ -14,20 +14,19 @@ let continueRegistration = (
   contracts,
   registerModels,
   registryId,
-) => {
-  console.log('continue registration', sortedElements)
+}) => {
   if (currentIndex + 1 >= sortedElements.length) {
     debug('....................................................................')
     debug('RELATING PARENT TO NESTED CHILDREN IN REGISTRY  ...')
-    return createParent2ChildRelation(
+    return createParent2ChildRelation({
       web3,
       registryContract,
-      0,
+      currentIndex: 0,
       sortedElements,
       contracts,
       modelInfo,
       registryId
-    )
+    })
   }
   else
     return registerModels({

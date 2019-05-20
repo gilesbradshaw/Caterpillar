@@ -4,15 +4,15 @@ import registerFactory from './register-factory'
 
 const debug = _debug('ipbm-ql:model:create-parent-to-child-relation')
 
-const createParent2ChildRelation = (
+const createParent2ChildRelation = ({
   web3,
-  registryContract: import('ipbm-lib').RegistryContract,
+  registryContract,
   currentIndex,
   sortedElements,
-  outputContracts,
+  contracts,
   modelInfo,
   registryId,
-) => {
+}) => {
   return web3.eth.personal.getAccounts()
     .then(
       accounts =>
@@ -32,15 +32,15 @@ const createParent2ChildRelation = (
             (result) => {
               debug('child bundleId added')
               if (currentIndex + 1 < sortedElements.length) {
-                return createParent2ChildRelation(
+                return createParent2ChildRelation({
                   web3,
                   registryContract,
-                  currentIndex + 1,
+                  currentIndex: currentIndex + 1,
                   sortedElements,
-                  outputContracts,
+                  contracts,
                   modelInfo,
                   registryId,
-                )
+                })
               } else {
                 debug('....................................................................')
                 let removedCallActivities = []
@@ -51,15 +51,15 @@ const createParent2ChildRelation = (
                 })
                 if (removedCallActivities.length > 0) {
                   debug('DEPLOYING FACTORIES AND UPDATING PROCESS-FACTORY RELATION IN REGISTRY ...')
-                  return registerFactory(
+                  return registerFactory({
                     web3,
                     registryContract,
-                    0,
-                    removedCallActivities,
-                    outputContracts,
+                    currentIndex: 0,
+                    sortedElements: removedCallActivities,
+                    contracts,
                     modelInfo,
                     registryId,
-                  )
+                  })
                 }
               }
             }
