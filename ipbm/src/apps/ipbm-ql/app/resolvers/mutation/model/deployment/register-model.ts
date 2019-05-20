@@ -25,7 +25,6 @@ export default ({
       factoryContract: '',
     }
   )
-  _debug('get-me')({ sortedElements })
   const nodeIndexes = sortedElements
     .reduce(
       (acc, { nodeId }, i) =>

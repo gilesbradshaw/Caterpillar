@@ -23,11 +23,6 @@ let registerModels = ({
   const controlFlowInfo = nodeMap.$type === 'bpmn:StartEvent'
     ? modelInfo.controlFlowInfoMap.get(modelInfo.globalNodeMap[gNodeId].$parent.id)
     : modelInfo.controlFlowInfoMap.get(gNodeId)
-  _debug('get-me')({
-    controlFlowInfo,
-    nodeMap,
-    nodeName
-  })
   if (controlFlowInfo) {
     debug('controlFlowInfo')
     let indexToFunctionName = []
